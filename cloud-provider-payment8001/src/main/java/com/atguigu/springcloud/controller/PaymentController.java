@@ -23,7 +23,7 @@ public class PaymentController {
      * @return
      */
     @PostMapping("/create")
-    public CommonResult payment(Payment payment){
+    public CommonResult payment(@RequestBody Payment payment){
 
         int result = paymentService.create(payment);
         if(1 == result){
