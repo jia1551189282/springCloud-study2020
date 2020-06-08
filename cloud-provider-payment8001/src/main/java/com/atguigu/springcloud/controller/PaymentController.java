@@ -3,9 +3,15 @@ package com.atguigu.springcloud.controller;
 import com.atguigu.springcloud.entities.CommonResult;
 import com.atguigu.springcloud.entities.Payment;
 import com.atguigu.springcloud.service.PaymentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author : zjj
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("payment")
+@Slf4j
 public class PaymentController {
 
     @Autowired
@@ -20,6 +27,9 @@ public class PaymentController {
 
     @Value("${server.port}")
     public String  serverPort;
+
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     /**
      * 新增一条支付
@@ -46,5 +56,25 @@ public class PaymentController {
     public CommonResult paymentGet(@PathVariable("id") Long id){
         Payment payment = paymentService.getPaymentById(id);
         return new CommonResult(200,"成功" + serverPort,payment);
+    }
+
+    /**
+     * 获取实例信息
+     * @return
+     */
+    @GetMapping("/discovery")
+    public Object disdovery(){
+        List<String> services = discoveryClient.getServices();
+        for (String element : services
+             ) {
+            log.info("====================element:{}",element);
+            
+        }
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        for (ServiceInstance s :
+                instances) {
+            log.info("====================serviceId:{},port:{},uri:{}",s.getInstanceId(),s.getPort(),s.getUri());
+        }
+        return discoveryClient;
     }
 }
