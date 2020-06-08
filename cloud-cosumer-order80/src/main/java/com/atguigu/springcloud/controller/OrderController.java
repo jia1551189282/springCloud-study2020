@@ -19,8 +19,8 @@ public class OrderController {
     private RestTemplate restTemplate;
 
 
-    public static final String PAYMENT_URL = "http://localhost:8001";
-
+//    public static final String PAYMENT_URL = "http://localhost:8001";
+    public static  final  String PAYMENT_URL ="http://CLOUD-PAYMENT-SERVICE";
     @GetMapping("/getPaymentById/{id}")
     public CommonResult getPayment(@PathVariable("id") Long id){
 

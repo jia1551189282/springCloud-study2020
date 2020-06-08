@@ -2,10 +2,10 @@ package com.atguigu.springcloud.controller;
 
 import com.atguigu.springcloud.entities.CommonResult;
 import com.atguigu.springcloud.entities.Payment;
-import com.atguigu.springcloud.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import com.atguigu.springcloud.service.PaymentService;
 
 /**
  * @author : zjj
@@ -18,8 +18,10 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+
+
     @Value("${server.port}")
-    public String  serverPort;
+    public String serverPort;
 
     /**
      * 新增一条支付
